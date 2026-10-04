@@ -6,6 +6,9 @@
 - Rayssa Santos 2024118083
 - Tiago Chousal 2024116801
 
+## Visão do Produto
+
+
 ## Resumo da Visão do Produto MNSR e problema a resolver
 
 ## Instruções de instalação e requisitos do sistema
