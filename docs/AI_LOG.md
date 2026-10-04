@@ -1,4 +1,4 @@
-# Registo de Proveniência e Uso de IA Generativa (AI Log) - Rayssa
+# Registo de Proveniência e Uso de IA Generativa (AI Log)
 **Projeto:** App MNSR Digital | **Equipa:** 01  
 | Data | ID Tarefa | Ferramenta GenAI | Prompt Submetido | Resumo do Output Gerado | Ação Humana de Validação / Alterações | Nível de Risco Identificado |
 | --- | --- | --- | --- | --- | --- | --- |
