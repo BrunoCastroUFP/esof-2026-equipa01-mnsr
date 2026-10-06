@@ -3,3 +3,4 @@
 | Data | ID Tarefa | Ferramenta GenAI | Prompt Submetido | Resumo do Output Gerado | Ação Humana de Validação / Alterações | Nível de Risco Identificado |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-10-06 | M1.2 | Gemini Notebook | Pedir exemplos para User Stories | Proposta de 6 User Stories | Revisto pela equipa | Baixo |
+| 2026-10-06 | M1.2 | Gemini AI (Flash) | Correção de gramática e colocar no formato dado pelo Professor | 2 User Stories corrigidas | Revisto pela equipe | Baixo |
