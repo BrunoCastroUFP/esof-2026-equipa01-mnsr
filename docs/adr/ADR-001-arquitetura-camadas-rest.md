@@ -1,0 +1,1 @@
+# ADR-001: Adoção de Arquitetura em 3 Camadas com API REST e Caching Local Offline-First
