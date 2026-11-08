@@ -1,0 +1,14 @@
+[tool.pytest.ini_options]
+# Deixa os testes fazerem "from src..." a partir da raiz do projeto
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.pylint."messages control"]
+# Decisão da equipa: docstrings opcionais; dataclasses, Protocols e modelos Pydantic
+# têm poucos métodos de propósito
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "too-few-public-methods",
+]

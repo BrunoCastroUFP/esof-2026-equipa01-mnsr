@@ -5,34 +5,53 @@ A App MNSR Digital adota o padrão de Arquitetura em 3 Camadas (Layered Architec
 
 1. Camada de Apresentação (UI / REST Controllers): Captura interações do visitante na interface móvel/PWA e expõe/consome endpoints RESTful em formato JSON
 2. Camada de Lógica de Negócio (Service Layer): Contém as regras de negócio, algoritmos de geração de roteiros por tempo, validação de QR Codes e orquestração do assistente de IA (RAG)
-3. Camada de Persistência / Dados (Repository Layer): Encapsula o acesso à base de dados SQL e gere a cache local offline no dispositivo móvel
+3. Camada de Persistência / Dados (Repository Layer): Encapsula o acesso à base de dados SQL do servidor. A cópia offline no telemóvel pertence à PWA (ADR-002)
 
 --- 
 ## 2. Diagrama de Classes UML (Visão Estrutural) 
 ```mermaid
 classDiagram
-   class Obra {
-     +String id
-     +String titulo
-     +String autor
-     +int pontosGamificacao
-     +getDetalhes()
-   }
+  class Obra {
+    +String id
+    +String titulo
+    +String autor
+    +String sala_id
+  }
 
-   class Roteiro {
-     +String id
-     +String nome
-     +int duracaoEstimada
-     +addObra(Obra o)
-   }
+  class RepositorioObras {
+    <<interface>>
+    +listar_todas() list~Obra~
+  }
 
-   class Visitante {
-     +String id
-     +int pontosAcumulados
-     +registarVisita()
-   }
+  class ServicoAcervo {
+    -RepositorioObras _repositorio
+    +listar_obras() list~Obra~
+  }
+
+  class ObraRepositorySQLite {
+    -Connection _ligacao
+    +criar_tabela()
+    +guardar_todas(obras)
+    +listar_todas() list~Obra~
+  }
+
+  class Roteiro {
+    <<planeada>>
+    +String id
+    +String nome
+    +int duracaoEstimada
+    +addObra(Obra o)
+  }
+
+  class Visitante {
+    <<planeada>>
+    +String id
+    +int pontosAcumulados
+    +registarVisita()
+  }
 
   class DesafioGamificado {
+    <<planeada>>
     +String id
     +String qrCodeHash
     +String pergunta
@@ -40,7 +59,10 @@ classDiagram
     +validarResposta(resposta) bool
   }
 
-  Roteiro "1" *-- "1..*" Obra : contém
+  ServicoAcervo --> RepositorioObras : usa
+  ObraRepositorySQLite ..|> RepositorioObras : implementa
+  RepositorioObras ..> Obra : devolve
+  Roteiro "1" -- "1..*" Obra : inclui
   Visitante "1" --> "0..*" Roteiro : percorre
   DesafioGamificado "1" --> "1" Obra : associado_a
   Visitante "1" --> "0..*" DesafioGamificado : resolve
@@ -79,7 +101,7 @@ sequenceDiagram
   participant Srv as ServicoGamificacao (Negócio)
   participant Repo as DesafioRepository (Persistência)
   
-  Visitante->>UI: Digitaliza o QR Code junto à estátua "O Desterro"
+  Visitante->>UI: Digitaliza o QR Code junto à estátua "O Desterrado"
   UI->>Ctrl: POST /api/desafios/validar {qrCodeHash: "MNSR-DEST-01"}
   Ctrl->>Srv: validarQRCode("MNSR-DEST-01", visitanteId)
   Srv->>Repo: buscarDesafioPorHash("MNSR-DEST-01") 

@@ -1,0 +1,53 @@
+# Pipeline de Integração Contínua (CI) da App MNSR Digital — marco M4
+# O GitHub lê este ficheiro sozinho porque está em .github/workflows/.
+# QUANDO houver um push ou um PR para a main,
+# ENTÃO corre os passos abaixo numa máquina Linux nova, que é apagada no fim
+name: App MNSR Digital - CI Pipeline
+
+# QUANDO corre
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# O token desta máquina só pode ler o repositório (privilégio mínimo)
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    # A máquina: Linux (Ubuntu), criada para esta execução e apagada no fim
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Descarrega o código do commit ou do PR.
+      #    A action está fixada no commit exato (o SHA), e não só na tag v7,
+      #    porque uma tag pode ser mudada para apontar para código malicioso.
+      - name: Checkout do código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Não deixa o token guardado no disco depois deste passo
+          persist-credentials: false
+
+      # 2. Instala o Python 3.14, a mesma versão que usamos nos PCs
+      - name: Python 3.14
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      # 3. Instala as dependências com as versões fixas do requirements.txt
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      # 4. Linter: falha se a nota do pylint for menor do que 8
+      - name: Lint
+        run: pylint src/ --fail-under=8.0
+
+      # 5. Testes: falha se algum teste falhar ou se a cobertura for menor do que 80 %
+      - name: Testes e cobertura
+        run: pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80
+
+      # 6. Segurança: falha se alguma dependência tiver vulnerabilidades conhecidas
+      - name: Auditoria de dependências
+        run: pip-audit -r requirements.txt
