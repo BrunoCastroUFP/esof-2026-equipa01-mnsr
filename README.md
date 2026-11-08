@@ -18,8 +18,9 @@
 | ID EPIC / Issues | Área Funcional | Descrição da EPIC | 
 | --- | --- | --- | 
 | **EPIC-01** | Roteiros Inteligentes | Gestão e geração de percursos temáticos personalizados em função do tempo e perfil do visitante | 
-| **EPIC-02** | Gamificação & QR Codes | Sistema de caça ao tesouro com leitura de QR Codes/Beacons e atribuição de recompensas virtuais | 
+| **EPIC-02** | Gamificação & QR Codes | Sistema de caça ao tesouro com leitura de QR Codes e atribuição de recompensas virtuais | 
 | **EPIC-03** | Assistente IA / RAG | Guia conversacional inteligente para esclarecimento de dúvidas sobre obras do acervo em linguagem natural |
+| **EPIC-04** | Afluência em Tempo Real | Indicador de ocupação das salas e sugestões de salas alternativas e de eventos próximos |
 
 ## Instruções de instalação e requisitos do sistema
 
