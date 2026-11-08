@@ -10,14 +10,20 @@
 
 ## Alternativas consideradas
 **Organização do sistema**
-1. **Só app, sem backend.** Rejeitada: os segredos e as validações ficariam no telemóvel, onde qualquer pessoa os extrai
-2. **Backend sem camadas, com as regras nas rotas.** Rejeitada: as regras não se testam sem HTTP e base de dados, e fica tudo acoplado
-3. **Um microserviço por módulo.** Rejeitada: testar e pôr no CI 4 serviços é demasiado para a equipa
-4. **Backend em 3 camadas com API REST.** Escolhida
+1. **Só app, sem backend:** toda a lógica e todos os dados ficam no telemóvel, que fala diretamente com serviços externos como o LLM.
+Rejeitada: os segredos (chave do LLM) e as validações (vouchers) ficariam no telemóvel, onde qualquer pessoa pode abrir o código e extraí-los.
+2. **Backend sem camadas:** um servidor em que as regras de negócio e o SQL estão escritos diretamente dentro das rotas HTTP.
+Rejeitada: para testar uma regra é preciso arrancar o servidor e a base de dados, e qualquer mudança mexe em tudo, porque fica tudo acoplado.
+3. **Microserviços:** um servidor independente para cada módulo (roteiros, caça ao tesouro, IA e afluência), que comunicam entre si pela rede.
+Rejeitada: obriga a implementar, testar e pôr no CI quatro serviços, o que é demasiado para a equipa e para o prazo.
+4. **Backend em 3 camadas com API REST:** um só servidor dividido em apresentação (rotas), negócio (regras) e persistência (base de dados), em que cada camada só fala com a de baixo.
+Escolhida: as regras testam-se isoladamente com mocks e cada camada pode mudar sem afetar as outras.
 
 **Tipo de cliente**
-1. **App nativa em React Native.** Rejeitada: obriga a emuladores e builds e dificulta o blind test. A sua vantagem seria ler beacons Bluetooth, mas não temos esse hardware
-2. **PWA.** Escolhida: instala-se com um link, funciona offline e acede à câmara para ler QR Codes
+1. **App nativa em React Native:** app instalada pela loja (ou por um `.apk`), com acesso total ao telemóvel, incluindo o Bluetooth.
+Rejeitada: obriga a emuladores e builds e dificulta o blind test. A sua vantagem seria ler beacons Bluetooth, mas não temos esse hardware.
+2. **PWA (Progressive Web App):** um site que se instala como app a partir de um link e que funciona sem rede graças ao Service Worker e ao armazenamento local do browser.
+Escolhida: instala-se com um link, funciona offline e acede à câmara para ler QR Codes.
 
 ## Decisão
 - **Apresentação:** rotas REST que validam os pedidos, sem regras de negócio
