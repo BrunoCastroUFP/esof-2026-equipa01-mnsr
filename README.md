@@ -102,6 +102,8 @@ esof-2026-equipa01-mnsr/
 | `docs/AI_LOG.md` | Documentação | Registo de cada uso de IA e da validação feita |
 | `docs/CARTA_IA.md` | Documentação | Regras da equipa para o uso de IA |
 | `docs/EQUIPA.md` | Documentação | Elementos da equipa e funções |
+| `docs/DOD.md` | Documentação | Definition of Done acordada pela equipa |
+| `.github/pull_request_template.md` | GitHub | Modelo automático para novos Pull Requests com resumo, issue e checklist DoD |
 
 - Uma regra nova vai para `src/business/`
 - uma consulta nova à base de dados para `src/persistence/`
