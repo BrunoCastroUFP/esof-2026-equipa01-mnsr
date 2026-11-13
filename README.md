@@ -35,7 +35,12 @@ py -3.14 -m venv .venv
 
 ### Correr a API
 ```powershell
+# Cria a base de dados mnsr.sqlite3 e guarda nela as obras de data/acervo.json.
+# Só é preciso da primeira vez, ou quando o acervo.json mudar; pode correr-se outra vez sem criar obras duplicadas.
 .venv\Scripts\python -m scripts.carregar_acervo
+
+# Arranca a API em http://127.0.0.1:8000 com o uvicorn. "src.main:app" é o objeto app do ficheiro src/main.py.
+# --reload reinicia o servidor sozinho sempre que um ficheiro .py muda (só para desenvolvimento). Para parar: Ctrl+C.
 .venv\Scripts\python -m uvicorn src.main:app --reload
 ```
 
@@ -97,6 +102,8 @@ esof-2026-equipa01-mnsr/
 | `docs/AI_LOG.md` | Documentação | Registo de cada uso de IA e da validação feita |
 | `docs/CARTA_IA.md` | Documentação | Regras da equipa para o uso de IA |
 | `docs/EQUIPA.md` | Documentação | Elementos da equipa e funções |
+| `docs/DOD.md` | Documentação | Definition of Done acordada pela equipa |
+| `.github/pull_request_template.md` | GitHub | Modelo automático para novos Pull Requests com resumo, issue e checklist DoD |
 
 - Uma regra nova vai para `src/business/`
 - uma consulta nova à base de dados para `src/persistence/`

@@ -12,3 +12,13 @@ def test_listar_obras_devolve_as_obras_do_repositorio():
 
     assert ServicoAcervo(repositorio).listar_obras() == obras
     repositorio.listar_todas.assert_called_once_with()
+
+def test_listar_obras_ordena_por_titulo_independentemente_do_repositorio():
+    desterrado = Obra("desterrado", "O Desterrado", "António Soares dos Reis", "S1")
+    casas_brancas = Obra(
+        "casas-brancas-de-capri", "Casas Brancas de Capri", "Henrique Pousão", "S3"
+    )
+    repositorio = create_autospec(RepositorioObras, instance=True)
+    repositorio.listar_todas.return_value = [desterrado, casas_brancas]
+
+    assert ServicoAcervo(repositorio).listar_obras() == [casas_brancas, desterrado]
