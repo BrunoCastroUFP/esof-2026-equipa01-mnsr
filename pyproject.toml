@@ -12,3 +12,8 @@ disable = [
     "missing-function-docstring",
     "too-few-public-methods",
 ]
+[tool.coverage.run]
+source = ["src"]
+
+[tool.coverage.report]
+fail_under = 80

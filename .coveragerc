@@ -1,5 +1,0 @@
-[run]
-source = src
-
-[report]
-fail_under = 80
