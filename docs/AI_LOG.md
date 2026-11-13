@@ -16,3 +16,4 @@
 | 2026-11-08 | #20 (M4) | Claude | Escreve o ci.yml do GitHub Actions | Workflow com lint, testes, cobertura ≥ 80 % e pip-audit, com as actions fixadas por SHA | SHAs confirmados nas tags oficiais (checkout v7.0.1, setup-python v6.3.0) | Médio |
 | 2026-11-12 | #33 | Google Ai Studio | Apoio na redação de docs/DOD.md e .github/pull_request_template.md | Estrutura inicial da DoD e template de PR alinhados com a Ficha 3 e CI | Revisto e adaptado pela equipa aos critérios do repositório | Baixo |
 | 2026-11-12 | #25 | Google Ai Studio | Apoio no ficheiros .py | ServicoAcervo e campos Obra repetidos | Revisto e adaptado pela equipa aos critérios do repositório | Médio |
+| 2026-11-13 | #17 (M3) | Gemini AI (3.1 Pro) | Orientações para atualizar o CalculadorAfluencia | Esclareceu a regra de negócio e forneceu os cenários de teste ajustados | Para confirmar os critérios de aceitação, executei localmente o comando `python -m pytest --cov src --cov-report=html` | Médio |
