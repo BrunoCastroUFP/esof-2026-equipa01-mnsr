@@ -12,6 +12,10 @@ CREATE TABLE IF NOT EXISTS obras (
     sala_id TEXT NOT NULL
 )
 """
+# Lista única de colunas usada nas queries (INSERT e SELECT)
+COLUNAS = ("id", "titulo", "autor", "sala_id")
+COLUNAS_SQL = ", ".join(COLUNAS)
+PLACEHOLDERS_SQL = ", ".join("?" for _ in COLUNAS)
 
 
 class ObraRepositorySQLite:
@@ -24,15 +28,17 @@ class ObraRepositorySQLite:
     def guardar_todas(self, obras: list[Obra]) -> None:
         # SQL parametrizado: os valores vão nos " e nunca são colados no texto do SQL
         # Impede SQL injection
+        valores = [tuple(getattr(obra, coluna) for coluna in COLUNAS) for obra in obras]
+
         self._ligacao.executemany(
-            "INSERT OR REPLACE INTO obras (id, titulo, autor, sala_id) VALUES (?, ?, ?, ?)",
-            [(obra.id, obra.titulo, obra.autor, obra.sala_id) for obra in obras],
+            f"INSERT OR REPLACE INTO obras ({COLUNAS_SQL}) VALUES ({PLACEHOLDERS_SQL})",
+            valores,
         )
         self._ligacao.commit()
 
     def listar_todas(self) -> list[Obra]:
         linhas = self._ligacao.execute(
-            "SELECT id, titulo, autor, sala_id FROM obras ORDER BY titulo"
+            f"SELECT {COLUNAS_SQL} FROM obras ORDER BY titulo"
         ).fetchall()
         # Converte cada linha da tabela numa Obra: o resto da app nunca vê SQL
         return [Obra(*linha) for linha in linhas]

@@ -12,7 +12,11 @@ class RepositorioObras(Protocol):
 
 
 class ServicoAcervo:
-    # Serviço com as regras do acervo. Por agora só lista as obras
+    """Orquestra as regras de negócio do acervo do MNSR.
+    Responsável pela política de apresentação do catálogo (ex.: ordenação
+    canónica por título) e, futuramente, por filtros de exposição e versão
+    do acervo, isolando a apresentação da camada de persistência (ADR-001).
+    """
 
     def __init__(self, repositorio: RepositorioObras):
         # Injeção de dependências: o repositório vem de fora
@@ -20,4 +24,9 @@ class ServicoAcervo:
         self._repositorio = repositorio
 
     def listar_obras(self) -> list[Obra]:
-        return self._repositorio.listar_todas()
+        # Regra de negócio: o catálogo é sempre devolvido ordenado por título,
+        # independentemente da ordem devolvida pelo repositório.
+        return sorted(
+            self._repositorio.listar_todas(),
+            key=lambda obra: obra.titulo.casefold(),
+        )
