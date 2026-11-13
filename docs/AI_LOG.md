@@ -14,3 +14,4 @@
 | 2026-11-08 | #17–#19 | Claude | Revisão de textos da US-07 à US-09 | 3 US com BDD | Issues revistas; valores (40 %, 80 %, 10 %) a decidir na Conversa | Baixo |
 | 2026-11-08 | #20 | Claude | Guia do esqueleto do backend | Código das 3 camadas, testes e ADR-003 | Escrito e comentado à mão; 5 testes verdes, cobertura 90 %, pylint 10/10, pip-audit sem vulnerabilidades | Médio |
 | 2026-11-08 | #20 (M4) | Claude | Escreve o ci.yml do GitHub Actions | Workflow com lint, testes, cobertura ≥ 80 % e pip-audit, com as actions fixadas por SHA | SHAs confirmados nas tags oficiais (checkout v7.0.1, setup-python v6.3.0) | Médio |
+| 2026-11-13 | #3 (M3) | Claude | Guia da US-02 em TDD: testes, ValidadorQRCode, repositório SQLite, rota e script de carga | Código e testes comentados | Escrito e adaptado por Bruno; confirmado RED antes de cada GREEN; 21 testes verdes, cobertura 92 %, pylint 10/10, pip-audit sem vulnerabilidades; 3 cenários testados à mão no /docs | Médio |
