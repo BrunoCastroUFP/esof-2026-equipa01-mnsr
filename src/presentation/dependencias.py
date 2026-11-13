@@ -2,6 +2,7 @@
 
 from collections.abc import Iterator
 from src.business.acervo import ServicoAcervo
+from src.business.roteiros import ServicoRoteiros
 from src.persistence.base_dados import abrir_ligacao
 from src.persistence.obra_repository import ObraRepositorySQLite
 from src.business.caca_tesouro import ValidadorQRCode
@@ -14,6 +15,14 @@ def obter_servico_acervo() -> Iterator[ServicoAcervo]:
     ligacao = abrir_ligacao()
     try:
         yield ServicoAcervo(ObraRepositorySQLite(ligacao))
+    finally:
+        ligacao.close()
+
+
+def obter_servico_roteiros() -> Iterator[ServicoRoteiros]:
+    ligacao = abrir_ligacao()
+    try:
+        yield ServicoRoteiros(ObraRepositorySQLite(ligacao))
     finally:
         ligacao.close()
 
