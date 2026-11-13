@@ -1,4 +1,4 @@
-from src.business.calculador_afluencia import CalculadorAfluencia
+from src.business.calculador_afluencia import CalculadorAfluencia, Sala
 
 
 def test_afluencia_baixa_quando_abaixo_40porcento():
@@ -18,3 +18,14 @@ def test_afluencia_elevada_quando_acima_80porcento():
 def test_afluencia_com_teto_maximo_100porcento():
     calculador = CalculadorAfluencia()
     assert calculador.calcular_nivel(50, 40) == "Elevada"
+
+def test_calculador_afluencia_com_salas_circulares():
+    sala_a = Sala("S1",  10)
+    sala_b = Sala("S2", 15)
+
+    # Cria o percurso circular: A -> B -> A
+    sala_a.contiguas.append(sala_b)
+    sala_b.contiguas.append(sala_a)
+
+    calculador = CalculadorAfluencia()
+    assert calculador.calcular_ocupacao_total(sala_a) == 25
