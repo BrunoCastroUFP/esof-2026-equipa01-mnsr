@@ -1,4 +1,4 @@
-from src.business.calculadorAfluencia import CalculadorAfluencia
+from src.business.calculador_afluencia import CalculadorAfluencia
 
 
 def test_AfluenciaBaixaQuandoAbaixo40Porcento():
