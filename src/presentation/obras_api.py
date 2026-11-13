@@ -1,7 +1,7 @@
 """Rotas REST do acervo"""
 
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from src.business.acervo import ServicoAcervo
 from src.presentation.dependencias import obter_servico_acervo
 
