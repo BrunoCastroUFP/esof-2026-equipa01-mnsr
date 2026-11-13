@@ -51,6 +51,25 @@ Depois, abrir no browser:
 O servidor só aceita ligações da própria máquina (127.0.0.1). 
 Não usar `--host 0.0.0.0` numa rede pública, porque isso abre a API a toda a rede
 
+
+### Correr os testes e o linter
+Os mesmos comandos que o CI corre em cada push e PR (`.github/workflows/ci.yml`):
+```powershell
+# Todos os testes (unit, integration e e2e); -v mostra o nome de cada teste
+.venv\Scripts\python -m pytest -v
+
+# Testes com cobertura: falha se a cobertura do src/ for menor do que 80 %, como no CI
+.venv\Scripts\python -m pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80
+
+# Linter: o CI falha se a nota for menor do que 8
+.venv\Scripts\python -m pylint src/ --fail-under=8.0
+
+# Procura vulnerabilidades conhecidas nas dependências do requirements.txt
+.venv\Scripts\python -m pip_audit -r requirements.txt
+```
+
+Usar sempre `python -m pytest` e não só `pytest`: no Windows 11, o Smart App Control pode bloquear o `pytest.exe` do venv, por não ter assinatura digital. Não desligar o Smart App Control por causa disto.
+
 ## Estrutura do projeto
 O backend segue uma arquitetura em 3 camadas (ADR-001): 
 - apresentação recebe os pedidos HTTP, 
