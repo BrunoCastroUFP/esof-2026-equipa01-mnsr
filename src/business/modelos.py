@@ -14,3 +14,11 @@ class Obra:
     titulo: str
     autor: str
     sala_id: str
+    destaque: bool = False
+    tempo_estimado: int = 10
+
+@dataclass(frozen=True)
+class Roteiro:
+    tempo_solicitado: int
+    tempo_total_estimado: int
+    obras: tuple[Obra, ...]

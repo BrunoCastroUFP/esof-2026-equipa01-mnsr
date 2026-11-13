@@ -39,6 +39,10 @@ py -3.14 -m venv .venv
 # Só é preciso da primeira vez, ou quando o acervo.json mudar; pode correr-se outra vez sem criar obras duplicadas.
 .venv\Scripts\python -m scripts.carregar_acervo
 
+# Cria as tabelas da caça ao tesouro e guarda os QR Codes de data/desafio_qr.json.
+# Pode correr-se outra vez sem duplicar nada nem apagar as descobertas
+.venv\Scripts\python -m scripts.carregar_desafio
+
 # Arranca a API em http://127.0.0.1:8000 com o uvicorn. "src.main:app" é o objeto app do ficheiro src/main.py.
 # --reload reinicia o servidor sozinho sempre que um ficheiro .py muda (só para desenvolvimento). Para parar: Ctrl+C.
 .venv\Scripts\python -m uvicorn src.main:app --reload
@@ -50,6 +54,25 @@ Depois, abrir no browser:
 
 O servidor só aceita ligações da própria máquina (127.0.0.1). 
 Não usar `--host 0.0.0.0` numa rede pública, porque isso abre a API a toda a rede
+
+
+### Correr os testes e o linter
+Os mesmos comandos que o CI corre em cada push e PR (`.github/workflows/ci.yml`):
+```powershell
+# Todos os testes (unit, integration e e2e); -v mostra o nome de cada teste
+.venv\Scripts\python -m pytest -v
+
+# Testes com cobertura: falha se a cobertura do src/ for menor do que 80 %, como no CI
+.venv\Scripts\python -m pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80
+
+# Linter: o CI falha se a nota for menor do que 8
+.venv\Scripts\python -m pylint src/ --fail-under=8.0
+
+# Procura vulnerabilidades conhecidas nas dependências do requirements.txt
+.venv\Scripts\python -m pip_audit -r requirements.txt
+```
+
+Usar sempre `python -m pytest -v` e não só `pytest`: no Windows 11, o Smart App Control pode bloquear o `pytest.exe` do venv, por não ter assinatura digital. Não desligar o Smart App Control por causa disto.
 
 ## Estrutura do projeto
 O backend segue uma arquitetura em 3 camadas (ADR-001): 
@@ -84,13 +107,22 @@ esof-2026-equipa01-mnsr/
 | --- | --- | --- |
 | `src/main.py` | — | Cria a aplicação FastAPI e regista as rotas. É o ponto de entrada (`uvicorn src.main:app`) |
 | `src/presentation/obras_api.py` | Apresentação | Rota `GET /api/obras` e o modelo `ObraResposta`, que define os campos que saem na API |
-| `src/presentation/dependencias.py` | Apresentação | Monta o serviço com o repositório real; abre e fecha a ligação à base de dados em cada pedido |
-| `src/business/modelos.py` | Negócio | Modelos de domínio partilhados pelas camadas, como a `Obra` |
+| `src/presentation/roteiros_api.py` | Apresentação | Rota `POST /api/roteiros` e os modelos de pedido e resposta do roteiro; devolve 200, 400 ou 422 |
+| `src/presentation/desafios_api.py` | Apresentação | Rota `POST /api/desafios/validar`: valida o pedido e responde 200, 404 ou 422 |
+| `src/presentation/dependencias.py` | Apresentação | Monta os serviços com os repositórios reais (acervo, roteiros e caça ao tesouro); abre e fecha a ligação à base de dados em cada pedido |
+| `src/business/modelos.py` | Negócio | Modelos de domínio partilhados pelas camadas, como a `Obra` e o `Roteiro` |
 | `src/business/acervo.py` | Negócio | `ServicoAcervo` (regras do acervo) e `RepositorioObras` (a interface que a persistência cumpre) |
+| `src/business/roteiros.py` | Negócio | `ServicoRoteiros`: valida a duração (30, 60 ou 90 min) e seleciona o roteiro otimizado com pelo menos uma obra de destaque (US-01) |
+| `src/business/caca_tesouro.py` | Negócio | `ValidadorQRCode` (os 3 cenários da US-02) e `RepositorioCacaTesouro` (a interface que a persistência cumpre) |
+| `src/business/validador_recompensa.py` | Negócio | `ValidadorRecompensa`: decide a medalha "Explorador" e o voucher de 10 % à 3.ª obra do desafio (US-08, cenário 1). Não emite o voucher (#18) |
 | `src/persistence/base_dados.py` | Persistência | Caminho da base de dados SQLite e abertura das ligações |
 | `src/persistence/obra_repository.py` | Persistência | `ObraRepositorySQLite`: o único sítio com SQL das obras, sempre parametrizado |
+| `src/persistence/caca_tesouro_repository.py` | Persistência | `CacaTesouroRepositorySQLite`: QR Codes do desafio e descobertas por sessão, com SQL parametrizado |
 | `scripts/carregar_acervo.py` | Apoio | Lê `data/acervo.json` e grava as obras na base de dados (`python -m scripts.carregar_acervo`) |
+| `scripts/carregar_desafio.py` | Apoio | Lê `data/desafio_qr.json` e grava os QR Codes na base de dados (`python -m scripts.carregar_desafio`) |
+| `scripts/verificar.py` | Apoio | Corre o pylint, os testes com cobertura e o pip-audit, como o CI (`python -m scripts.verificar`) |
 | `data/acervo.json` | Dados | Obras de exemplo do acervo do MNSR (as salas são fictícias) |
+| `data/desafio_qr.json` | Dados | QR Codes do desafio: código, obra e pontos. Códigos gerados com `secrets` |
 | `tests/unit/` | Testes | Testam o negócio isolado, com um repositório falso (mock) |
 | `tests/integration/` | Testes | Testam o repositório com um SQLite em memória |
 | `tests/e2e/` | Testes | Fazem pedidos HTTP à API com o `TestClient` |

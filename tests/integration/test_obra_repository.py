@@ -37,3 +37,19 @@ def test_texto_com_sql_e_guardado_como_texto(repositorio):
     repositorio.guardar_todas([obra])
 
     assert repositorio.listar_todas() == [obra]
+
+def test_guarda_e_recupera_destaque_e_tempo_estimado(repositorio):
+    obra = Obra(
+        "desterrado",
+        "O Desterrado",
+        "António Soares dos Reis",
+        "S1",
+        destaque=True,
+        tempo_estimado=15,
+    )
+
+    repositorio.guardar_todas([obra])
+    recuperada = repositorio.listar_todas()[0]
+
+    assert recuperada.destaque is True
+    assert recuperada.tempo_estimado == 15

@@ -96,21 +96,30 @@ sequenceDiagram
 sequenceDiagram
   autonumber
   actor Visitante
-  participant UI as QRScanView (Apresentação)
-  participant Ctrl as GamificacaoController (Apresentação)
-  participant Srv as ServicoGamificacao (Negócio)
-  participant Repo as DesafioRepository (Persistência)
-  
-  Visitante->>UI: Digitaliza o QR Code junto à estátua "O Desterrado"
-  UI->>Ctrl: POST /api/desafios/validar {qrCodeHash: "MNSR-DEST-01"}
-  Ctrl->>Srv: validarQRCode("MNSR-DEST-01", visitanteId)
-  Srv->>Repo: buscarDesafioPorHash("MNSR-DEST-01") 
-  Repo-->>Srv: Instância do DesafioGamificado (cache/SQL)
-  Note right of Srv: Valida o código, calcula a pontuação e atribui a medalha
-  Srv->>Repo: atualizarPontosVisitante(visitanteId, +10)
-  Repo-->>Srv: Confirmação de atualização
-  Srv-->>Ctrl: DTO com Resultado do Desafio (Pontos + Troféu)
-  Ctrl-->>UI: 200 OK (JSON Sucesso + Pista Desbloqueada)
-  UI-->>Visitante: Exibe animação de conquista e desbloqueia a próxima pista
+  participant API as desafios_api (Apresentação)
+  participant Val as ValidadorQRCode (Negócio)
+  participant Repo as CacaTesouroRepositorySQLite (Persistência)
+
+  Visitante->>API: POST /api/desafios/validar {sessao_id, codigo}
+  alt Pedido mal formado
+    API-->>Visitante: 422 (sessão não é UUID v4, código fora do formato ou campos a mais)
+  else Pedido válido
+    API->>Val: validar(sessao_id, codigo)
+    Val->>Repo: obter_qr_code(codigo)
+    alt Código não existe no desafio (cenário 3)
+      Repo-->>Val: None
+      Val-->>API: QRCodeNaoReconhecido
+      API-->>Visitante: 404 "QR Code não reconhecido"
+    else Código existe
+      Repo-->>Val: QRCodeDesafio
+      Val->>Repo: registar_descoberta(sessao_id, qr_code)
+      Note right of Repo: INSERT OR IGNORE com a chave (sessao_id, obra_id)
+      Repo-->>Val: True se nova, False se repetida
+      Val->>Repo: total_pontos(sessao_id)
+      Repo-->>Val: total
+      Val-->>API: ResultadoLeitura
+      API-->>Visitante: 200 "Obra encontrada" (cenário 1) ou "Obra já descoberta" (cenário 2)
+    end
+  end
 ```
 ---
