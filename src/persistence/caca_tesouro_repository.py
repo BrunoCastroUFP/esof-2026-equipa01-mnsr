@@ -63,7 +63,7 @@ class CacaTesouroRepositorySQLite:
         return QRCodeDesafio(*linha) if linha else None
 
     def registar_descoberta(self, sessao_id: str, qr_code: QRCodeDesafio) -> bool:
-        # INSERT OR IGNORE: se a chave (sessao_id, obra_id) já existir, não grava nada e não dá erro.
+        # INSERT OR IGNORE: se chave (sessao_id, obra_id) já existir, não grava nada e não dá erro.
         # A pergunta "já existe?" e a gravação são uma só operação na base de dados,
         # por isso duas leituras ao mesmo tempo não dão pontos a dobrar
         cursor = self._ligacao.execute(

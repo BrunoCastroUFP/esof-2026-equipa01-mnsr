@@ -35,7 +35,10 @@ class LeituraResposta(BaseModel):
 
 
 @router.post("/validar", response_model=LeituraResposta)
-def validar_qr_code(pedido: PedidoLeitura,validador: ValidadorQRCode = Depends(obter_validador_qr_code)) -> LeituraResposta:
+def validar_qr_code(
+        pedido: PedidoLeitura,
+        validador: ValidadorQRCode = Depends(obter_validador_qr_code)
+) -> LeituraResposta:
     # Depends: o FastAPI chama obter_validador_qr_code() e passa o validador já montado
     # Nos testes e2e troca-se por um com a base de dados em memória
     try:

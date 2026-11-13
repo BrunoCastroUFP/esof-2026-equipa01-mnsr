@@ -44,8 +44,8 @@ class RepositorioCacaTesouro(Protocol):
     # Grava que esta sessão encontrou a obra deste QR.
     # Devolve True se a descoberta é nova e False se a sessão já a tinha
     # Quem decide é a base de dados, numa só operação:
-    # se perguntássemos primeiro "já foi descoberta?" e só depois gravássemos, duas leituras ao mesmo tempo
-    # passavam as duas na pergunta e davam pontos a dobrar (race condition)
+    # se perguntássemos primeiro "já foi descoberta?" e só depois gravássemos,
+    # haveria duas leituras ao mesmo tempo que causava pontos a dobrar
     def registar_descoberta(self, sessao_id: str, qr_code: QRCodeDesafio) -> bool: ...
 
     # Soma os pontos de todas as obras encontradas por esta sessão
