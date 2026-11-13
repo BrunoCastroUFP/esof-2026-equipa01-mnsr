@@ -37,7 +37,7 @@ def test_obter_qr_code_existente_e_inexistente(repositorio):
     assert repositorio.obter_qr_code("MNSR-NAOEXISTE") is None
 
 
-def test_a_mesma_obra_so_conta_uma_vez_por_sessao(repositorio):
+def test_mesma_obra_so_conta_uma_vez_por_sessao(repositorio):
     # Cenário 2 na base de dados: a primeira gravação é nova, a segunda não
     # É a chave (sessao_id, obra_id) da tabela que garante isto
     assert repositorio.registar_descoberta(SESSAO_A, QR_DESTERRADO) is True
@@ -45,7 +45,7 @@ def test_a_mesma_obra_so_conta_uma_vez_por_sessao(repositorio):
     assert repositorio.total_pontos(SESSAO_A) == 10
 
 
-def test_total_soma_as_obras_diferentes(repositorio):
+def test_total_soma_obras_diferentes(repositorio):
     # Cenário 1 duas vezes, em obras diferentes: os pontos acumulam
     repositorio.registar_descoberta(SESSAO_A, QR_DESTERRADO)
     repositorio.registar_descoberta(SESSAO_A, QR_FLOR_AGRESTE)
@@ -53,14 +53,14 @@ def test_total_soma_as_obras_diferentes(repositorio):
     assert repositorio.total_pontos(SESSAO_A) == 25
 
 
-def test_as_sessoes_nao_partilham_pontos(repositorio):
+def test_sessoes_nao_partilham_pontos(repositorio):
     # Os pontos de um visitante nunca aparecem noutro. Uma sessão sem descobertas tem 0, e não None
     repositorio.registar_descoberta(SESSAO_A, QR_DESTERRADO)
 
     assert repositorio.total_pontos(SESSAO_B) == 0
 
 
-def test_codigo_com_sql_e_tratado_como_texto(repositorio):
+def test_codigo_com_sql_tratado_como_texto(repositorio):
     # Tentativa de SQL injection:
     # se o SQL fosse montado com f-strings, esta condição ficava sempre verdadeira e devolvia um QR qualquer.
     # Com SQL parametrizado (?), é só um código que não existe
