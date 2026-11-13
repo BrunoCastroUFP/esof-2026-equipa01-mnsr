@@ -31,14 +31,14 @@ class ObraRepositorySQLite:
         valores = [tuple(getattr(obra, coluna) for coluna in COLUNAS) for obra in obras]
 
         self._ligacao.executemany(
-            "INSERT OR REPLACE INTO obras ({COLUNAS_SQL}) VALUES ({PLACEHOLDERS_SQL})",
+            f"INSERT OR REPLACE INTO obras ({COLUNAS_SQL}) VALUES ({PLACEHOLDERS_SQL})",
             valores,
         )
         self._ligacao.commit()
 
     def listar_todas(self) -> list[Obra]:
         linhas = self._ligacao.execute(
-            "SELECT {COLUNAS_SQL} FROM obras ORDER BY titulo"
+            f"SELECT {COLUNAS_SQL} FROM obras ORDER BY titulo"
         ).fetchall()
         # Converte cada linha da tabela numa Obra: o resto da app nunca vê SQL
         return [Obra(*linha) for linha in linhas]
