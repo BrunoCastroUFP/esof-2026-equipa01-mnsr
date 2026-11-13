@@ -107,10 +107,12 @@ esof-2026-equipa01-mnsr/
 | --- | --- | --- |
 | `src/main.py` | — | Cria a aplicação FastAPI e regista as rotas. É o ponto de entrada (`uvicorn src.main:app`) |
 | `src/presentation/obras_api.py` | Apresentação | Rota `GET /api/obras` e o modelo `ObraResposta`, que define os campos que saem na API |
+| `src/presentation/roteiros_api.py` | Apresentação | Rota `POST /api/roteiros` e os modelos de pedido e resposta do roteiro; devolve 200, 400 ou 422 |
 | `src/presentation/desafios_api.py` | Apresentação | Rota `POST /api/desafios/validar`: valida o pedido e responde 200, 404 ou 422 |
-| `src/presentation/dependencias.py` | Apresentação | Monta os serviços com os repositórios reais (acervo e caça ao tesouro); abre e fecha a ligação à base de dados em cada pedido |
-| `src/business/modelos.py` | Negócio | Modelos de domínio partilhados pelas camadas, como a `Obra` |
+| `src/presentation/dependencias.py` | Apresentação | Monta os serviços com os repositórios reais (acervo, roteiros e caça ao tesouro); abre e fecha a ligação à base de dados em cada pedido |
+| `src/business/modelos.py` | Negócio | Modelos de domínio partilhados pelas camadas, como a `Obra` e o `Roteiro` |
 | `src/business/acervo.py` | Negócio | `ServicoAcervo` (regras do acervo) e `RepositorioObras` (a interface que a persistência cumpre) |
+| `src/business/roteiros.py` | Negócio | `ServicoRoteiros`: valida a duração (30, 60 ou 90 min) e seleciona o roteiro otimizado com pelo menos uma obra de destaque (US-01) |
 | `src/business/caca_tesouro.py` | Negócio | `ValidadorQRCode` (os 3 cenários da US-02) e `RepositorioCacaTesouro` (a interface que a persistência cumpre) |
 | `src/business/validador_recompensa.py` | Negócio | `ValidadorRecompensa`: decide a medalha "Explorador" e o voucher de 10 % à 3.ª obra do desafio (US-08, cenário 1). Não emite o voucher (#18) |
 | `src/persistence/base_dados.py` | Persistência | Caminho da base de dados SQLite e abertura das ligações |
