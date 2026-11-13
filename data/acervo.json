@@ -1,8 +1,8 @@
 [
-  {"id": "desterrado", "titulo": "O Desterrado", "autor": "António Soares dos Reis", "sala_id": "S1"},
-  {"id": "flor-agreste", "titulo": "Flor Agreste", "autor": "António Soares dos Reis", "sala_id": "S1"},
-  {"id": "conde-de-ferreira", "titulo": "Conde de Ferreira", "autor": "António Soares dos Reis", "sala_id": "S1"},
-  {"id": "infancia-de-caim", "titulo": "Infância de Caim", "autor": "António Teixeira Lopes", "sala_id": "S2"},
-  {"id": "casas-brancas-de-capri", "titulo": "Casas Brancas de Capri", "autor": "Henrique Pousão", "sala_id": "S3"},
-  {"id": "autorretrato-aurelia-de-souza", "titulo": "Autorretrato", "autor": "Aurélia de Souza", "sala_id": "S3"}
+  {"id": "desterrado", "titulo": "O Desterrado", "autor": "António Soares dos Reis", "sala_id": "S1", "destaque": true, "tempo_estimado": 15},
+  {"id": "flor-agreste", "titulo": "Flor Agreste", "autor": "António Soares dos Reis", "sala_id": "S1", "destaque": false, "tempo_estimado": 10},
+  {"id": "conde-de-ferreira", "titulo": "Conde de Ferreira", "autor": "António Soares dos Reis", "sala_id": "S1", "destaque": false, "tempo_estimado": 10},
+  {"id": "infancia-de-caim", "titulo": "Infância de Caim", "autor": "António Teixeira Lopes", "sala_id": "S2", "destaque": true, "tempo_estimado": 15},
+  {"id": "casas-brancas-de-capri", "titulo": "Casas Brancas de Capri", "autor": "Henrique Pousão", "sala_id": "S3", "destaque": true, "tempo_estimado": 15},
+  {"id": "autorretrato-aurelia-de-souza", "titulo": "Autorretrato", "autor": "Aurélia de Souza", "sala_id": "S3", "destaque": true, "tempo_estimado": 15}
 ]
