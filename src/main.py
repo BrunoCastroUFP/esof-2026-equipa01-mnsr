@@ -6,3 +6,4 @@ from src.presentation import obras_api, roteiros_api
 app = FastAPI(title="App MNSR Digital")
 app.include_router(obras_api.router)
 app.include_router(roteiros_api.router)
+app.include_router(desafios_api.router)
