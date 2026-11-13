@@ -1,9 +1,15 @@
 class CalculadorAfluencia:
-    # ⚪ Fase Refactor: Criação da constante para eliminar o número mágico 500
-    CAPACIDADE_MAXIMA_SALAS = 500
 
-    def calcular_nivel(self, visitantes: int) -> str:
-        # 🟢 Fase Green: Código para satisfazer a condição
-        if visitantes > self.CAPACIDADE_MAXIMA_SALAS:
+
+    def calcular_nivel(self, visitantes: int, capaciadade: int) -> str:
+        percentagem = (visitantes/capaciadade)*100
+
+        if percentagem > 100.0:
+            percentagem = 100.0
+
+        if percentagem < 40.0:
+            return "Baixa"
+        elif percentagem < 80.0:
+            return "Média"
+        else:
             return "Elevada"
-        return "Baixa"

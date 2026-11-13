@@ -14,3 +14,4 @@
 | 2026-11-08 | #17–#19 | Claude | Revisão de textos da US-07 à US-09 | 3 US com BDD | Issues revistas; valores (40 %, 80 %, 10 %) a decidir na Conversa | Baixo |
 | 2026-11-08 | #20 | Claude | Guia do esqueleto do backend | Código das 3 camadas, testes e ADR-003 | Escrito e comentado à mão; 5 testes verdes, cobertura 90 %, pylint 10/10, pip-audit sem vulnerabilidades | Médio |
 | 2026-11-08 | #20 (M4) | Claude | Escreve o ci.yml do GitHub Actions | Workflow com lint, testes, cobertura ≥ 80 % e pip-audit, com as actions fixadas por SHA | SHAs confirmados nas tags oficiais (checkout v7.0.1, setup-python v6.3.0) | Médio |
+| 2026-11-13 | #17 (M3) | Gemini AI (3.1 Pro) | Orientações para atualizar o CalculadorAfluencia | Esclareceu a regra de negócio e forneceu os cenários de teste ajustados | Para confirmar os critérios de aceitação, executei localmente o comando `python -m pytest --cov src --cov-report=html` | Médio
