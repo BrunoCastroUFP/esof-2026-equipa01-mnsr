@@ -112,6 +112,7 @@ esof-2026-equipa01-mnsr/
 | `src/business/modelos.py` | Negócio | Modelos de domínio partilhados pelas camadas, como a `Obra` |
 | `src/business/acervo.py` | Negócio | `ServicoAcervo` (regras do acervo) e `RepositorioObras` (a interface que a persistência cumpre) |
 | `src/business/caca_tesouro.py` | Negócio | `ValidadorQRCode` (os 3 cenários da US-02) e `RepositorioCacaTesouro` (a interface que a persistência cumpre) |
+| `src/business/validador_recompensa.py` | Negócio | `ValidadorRecompensa`: decide a medalha "Explorador" e o voucher de 10 % à 3.ª obra do desafio (US-08, cenário 1). Não emite o voucher (#18) |
 | `src/persistence/base_dados.py` | Persistência | Caminho da base de dados SQLite e abertura das ligações |
 | `src/persistence/obra_repository.py` | Persistência | `ObraRepositorySQLite`: o único sítio com SQL das obras, sempre parametrizado |
 | `src/persistence/caca_tesouro_repository.py` | Persistência | `CacaTesouroRepositorySQLite`: QR Codes do desafio e descobertas por sessão, com SQL parametrizado |
