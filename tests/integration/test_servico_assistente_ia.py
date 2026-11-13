@@ -1,11 +1,12 @@
 from unittest.mock import create_autospec
 from src.business.servico_assistente_ia import ServicoAssistenteIA, ClienteRAG
 
-def test_consultarObraComMock():
+def test_consultar_obra_com_mock():
 
     # Configuração do Mock
     cliente_rag_mock= create_autospec(ClienteRAG)
-    cliente_rag_mock.consultar.return_value= 'Escultura em mármore de António Soares dos Reis (1872).'
+    resposta_esperada= 'Escultura em mármore de António Soares dos Reis (1872).'
+    cliente_rag_mock.consultar.return_value = resposta_esperada
 
     # Injetar o Mock no serviço
     servico = ServicoAssistenteIA(cliente_rag=cliente_rag_mock)
