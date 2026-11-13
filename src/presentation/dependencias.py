@@ -4,6 +4,8 @@ from collections.abc import Iterator
 from src.business.acervo import ServicoAcervo
 from src.persistence.base_dados import abrir_ligacao
 from src.persistence.obra_repository import ObraRepositorySQLite
+from src.business.caca_tesouro import ValidadorQRCode
+from src.persistence.caca_tesouro_repository import CacaTesouroRepositorySQLite
 
 
 def obter_servico_acervo() -> Iterator[ServicoAcervo]:
@@ -12,5 +14,14 @@ def obter_servico_acervo() -> Iterator[ServicoAcervo]:
     ligacao = abrir_ligacao()
     try:
         yield ServicoAcervo(ObraRepositorySQLite(ligacao))
+    finally:
+        ligacao.close()
+
+
+def obter_validador_qr_code() -> Iterator[ValidadorQRCode]:
+    # Igual à do acervo: uma ligação por pedido HTTP, fechada no fim mesmo que o pedido falhe
+    ligacao = abrir_ligacao()
+    try:
+        yield ValidadorQRCode(CacaTesouroRepositorySQLite(ligacao))
     finally:
         ligacao.close()
