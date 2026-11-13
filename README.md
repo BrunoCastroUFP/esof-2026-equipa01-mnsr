@@ -68,7 +68,7 @@ Os mesmos comandos que o CI corre em cada push e PR (`.github/workflows/ci.yml`)
 .venv\Scripts\python -m pip_audit -r requirements.txt
 ```
 
-Usar sempre `python -m pytest` e não só `pytest`: no Windows 11, o Smart App Control pode bloquear o `pytest.exe` do venv, por não ter assinatura digital. Não desligar o Smart App Control por causa disto.
+Usar sempre `python -m pytest -v` e não só `pytest`: no Windows 11, o Smart App Control pode bloquear o `pytest.exe` do venv, por não ter assinatura digital. Não desligar o Smart App Control por causa disto.
 
 ## Estrutura do projeto
 O backend segue uma arquitetura em 3 camadas (ADR-001): 
