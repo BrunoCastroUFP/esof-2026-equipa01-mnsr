@@ -12,6 +12,10 @@ router = APIRouter(prefix="/api", tags=["acervo"])
 class ObraResposta(BaseModel):
     # O que a API devolve. Só saem estes campos: se um dia a Obra tiver um campo
     # interno (por exemplo, o código secreto do QR), não aparece na API sem querermos
+
+    # from_attributes=True permite validar diretamente a dataclass Obra sem cópia manual
+    model_config = ConfigDict(from_attributes=True)
+
     id: str
     titulo: str
     autor: str
