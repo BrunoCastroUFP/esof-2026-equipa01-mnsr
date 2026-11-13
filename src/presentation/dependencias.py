@@ -2,7 +2,7 @@
 
 from collections.abc import Iterator
 
-from logging_config import gerar_correlation_id
+from src.logging_config import gerar_correlation_id
 from src.business.acervo import ServicoAcervo
 from src.persistence.base_dados import abrir_ligacao
 from src.persistence.obra_repository import ObraRepositorySQLite

@@ -5,11 +5,10 @@ import os
 import sys
 import uuid
 from datetime import datetime, timezone
-from email.policy import default
 
-from coverage.misc import nice_pair
 
-_correlation_id_ctx: contextvars.ContextVar[str] = contextvars.ContextVar("correlation_id", default="")
+_correlation_id_ctx: contextvars.ContextVar[str] = contextvars.ContextVar("correlation_id",
+                                                                            default="")
 
 def gerar_correlation_id() ->str:
     """Gera um novo UUID v4, guarda no contexto atual e devolve-lo"""
@@ -29,7 +28,8 @@ class JsonFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord)-> str:
         log_data = {
-            "timestamp": datetime.fromtimestamp(record.created, tz=timezone.utc).isoformat(),
+            "timestamp": datetime.fromtimestamp(record.created,
+            tz=timezone.utc).isoformat(),
             "level": record.levelname,
             "origin": record.name,
             "thread": record.threadName,
@@ -41,7 +41,7 @@ class JsonFormatter(logging.Formatter):
         return json.dumps(log_data, ensure_ascii=False)
 def configurar_logging()->None:
     """Configurar o logger raiz para emitir JSON estruturado consoante o ambiente"""
-    ambiente = os.getenv("APP_ENV", "development").lower()
+    ambiente = os.getenv("APP_ENV", "development").strip().lower()
     nivel = logging.INFO if ambiente in ("production", "prod") else logging.DEBUG
 
     handler = logging.StreamHandler(sys.stdout)
