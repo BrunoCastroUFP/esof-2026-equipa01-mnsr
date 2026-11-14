@@ -1,4 +1,3 @@
-from isort.settings import field
 
 class Sala:
     def __init__(self, id_sala: str, visitantes: int):
@@ -18,8 +17,17 @@ class CalculadorAfluencia:
 
         return "Elevada"
 
-    def calcular_ocupacao_total(self, sala: Sala)-> int:
+    def calcular_ocupacao_total(self, sala: Sala, visitadas: set[str]
+                                | None = None)-> int:
+
+        if visitadas is None:
+            visitadas = set()
+
+        if sala.id in visitadas:
+            return 0
+
+        visitadas.add(sala.id)
         total = sala.visitantes
         for contigua in sala.contiguas:
-            total+= self.calcular_ocupacao_total(contigua)
+            total+= self.calcular_ocupacao_total(contigua, visitadas)
         return total
