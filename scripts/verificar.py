@@ -7,9 +7,9 @@ Correr a partir da raiz: python -m scripts.verificar
 import subprocess
 import sys
 
-# Os mesmos comandos e limites do ci.yml. Se o CI mudar, muda-se aqui também
+# Os mesmos comandos do ci.yml. Os limites vêm da configuração dos respetivos programas.
 PASSOS = [
-    ("Pylint", ["pylint", "src/", "--fail-under=8.0"]),
+    ("Pylint", ["pylint", "src/"]),
     (
         "Testes e cobertura",
         ["pytest", "--cov=src", "--cov-branch", "--cov-report=term-missing", "--cov-fail-under=80"],

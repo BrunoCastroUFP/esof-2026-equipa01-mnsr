@@ -3,6 +3,11 @@
 pythonpath = ["."]
 testpaths = ["tests"]
 
+[tool.pylint.main]
+# Nota mínima: o pylint falha (código de saída ≠ 0) se ficar abaixo disto.
+# Vale para o PC e para a CI, por isso o ci.yml não repete o limite
+fail-under = 8.0
+
 [tool.pylint."messages control"]
 # Decisão da equipa: docstrings opcionais; dataclasses, Protocols e modelos Pydantic
 # têm poucos métodos de propósito
