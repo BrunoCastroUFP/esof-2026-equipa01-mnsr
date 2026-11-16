@@ -3,6 +3,8 @@ import tracemalloc
 from uuid import uuid4
 from unittest.mock import create_autospec
 
+import pytest
+
 from src.business.servico_assistente_ia import ServicoAssistenteIA, ClienteRAG
 
 
@@ -63,6 +65,13 @@ def test_historico_isolado_por_sessao_anonima():
     assert cliente_rag_mock.consultar.call_args_list[2].args[1] == (
         ("Pergunta A", "Resposta A"),
     )
+
+
+def test_sessao_recusa_identificadores_que_nao_sejam_uuid_v4():
+    servico = ServicoAssistenteIA(cliente_rag=create_autospec(ClienteRAG))
+
+    with pytest.raises(ValueError, match="UUID v4"):
+        servico.obter_informacao("visitante@example.com", "Pergunta")
 
 
 def test_historico_tem_no_maximo_dez_trocas():
