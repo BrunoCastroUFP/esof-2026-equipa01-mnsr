@@ -44,6 +44,27 @@ def test_fechar_sessao_apaga_historico_antes_da_consulta_seguinte():
     assert cliente_rag_mock.consultar.call_args_list[2].args[1] == ()
 
 
+def test_historico_isolado_por_sessao_anonima():
+    cliente_rag_mock = create_autospec(ClienteRAG)
+    cliente_rag_mock.consultar.side_effect = [
+        "Resposta A",
+        "Resposta B",
+        "Resposta A2",
+    ]
+    servico = ServicoAssistenteIA(cliente_rag=cliente_rag_mock)
+    sessao_a = uuid4()
+    sessao_b = uuid4()
+
+    servico.obter_informacao(sessao_a, "Pergunta A")
+    servico.obter_informacao(sessao_b, "Pergunta B")
+    servico.obter_informacao(sessao_a, "Pergunta A2")
+
+    assert cliente_rag_mock.consultar.call_args_list[1].args[1] == ()
+    assert cliente_rag_mock.consultar.call_args_list[2].args[1] == (
+        ("Pergunta A", "Resposta A"),
+    )
+
+
 def test_historico_tem_no_maximo_dez_trocas():
     cliente_rag_mock = create_autospec(ClienteRAG)
     cliente_rag_mock.consultar.side_effect = lambda pergunta, historico: f"Resposta {pergunta}"
