@@ -1,5 +1,7 @@
 # App MNSR DIGITAL - ESOF 2026
 
+[![CI](https://github.com/BrunoCastroUFP/esof-2026-equipa01-mnsr/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/BrunoCastroUFP/esof-2026-equipa01-mnsr/actions/workflows/ci.yml)
+
 ## Autores - Grupo 01:  
 - Bruno Castro 2024118435
 - Filipe Silva 2024118471

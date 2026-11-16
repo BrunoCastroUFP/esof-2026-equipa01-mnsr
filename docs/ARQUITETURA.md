@@ -122,4 +122,35 @@ sequenceDiagram
     end
   end
 ```
+### US-03 (Assistente de IA — resposta baseada no acervo; fluxo previsto)
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor Visitante
+  participant UI as AssistenteView (Apresentação)
+  participant API as AssistenteController (Apresentação)
+  participant Srv as ServicoAssistenteIA (Negócio)
+  participant RAG as ClienteRAG
+  participant Acervo as Fontes verificáveis do acervo
+
+  Visitante->>UI: Faz uma pergunta sobre uma obra
+  UI->>API: Envia pergunta e UUID v4 anónimo da sessão
+  API->>Srv: obter_informacao(sessao_id, pergunta)
+  Srv->>RAG: consultar(pergunta, histórico da sessão)
+  RAG->>Acervo: Procurar informação relevante
+  alt Existe fonte suficiente
+    Acervo-->>RAG: Excerto(s) e referência(s)
+    RAG-->>Srv: Resposta fundamentada e fontes
+    Srv-->>API: Resposta e fontes
+    API-->>UI: 200 (resposta e fontes)
+    UI-->>Visitante: Apresenta a resposta com as fontes
+  else Não existe fonte suficiente
+    Acervo-->>RAG: Nenhuma fonte relevante
+    RAG-->>Srv: "Não sei responder com a informação disponível."
+    Srv-->>API: Resposta sem especulação
+    API-->>UI: 200 (resposta sem fonte)
+    UI-->>Visitante: Informa que não sabe
+  end
+```
 ---
