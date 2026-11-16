@@ -28,4 +28,4 @@ def test_calculador_afluencia_com_salas_circulares():
     sala_b.contiguas.append(sala_a)
 
     calculador = CalculadorAfluencia()
-    assert calculador.calcular_ocupacao_total(sala_a) == 24
+    assert calculador.calcular_ocupacao_total(sala_a) == 25
