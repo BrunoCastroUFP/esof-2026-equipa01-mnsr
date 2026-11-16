@@ -65,8 +65,8 @@ Os mesmos comandos que o CI corre em cada push e PR (`.github/workflows/ci.yml`)
 # Testes com cobertura: falha se a cobertura do src/ for menor do que 80 %, como no CI
 .venv\Scripts\python -m pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80
 
-# Linter: o limite mínimo de 8 está definido no pyproject.toml, como no CI
-pylint src/
+# Linter: usa as regras e o limite (nota mínima 8) do pyproject.toml, tal como o CI
+.venv\Scripts\python -m pylint src/
 
 # Procura vulnerabilidades conhecidas nas dependências do requirements.txt
 .venv\Scripts\python -m pip_audit -r requirements.txt
