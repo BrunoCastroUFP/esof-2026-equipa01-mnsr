@@ -5,7 +5,7 @@ Correr a partir da raiz do projeto: python -m scripts.carregar_acervo
 import json
 import logging
 
-from logging_config import configurar_logging
+from src.logging_config import configurar_logging
 from pathlib import Path
 from src.business.modelos import Obra
 from src.persistence.base_dados import CAMINHO_BD, abrir_ligacao
